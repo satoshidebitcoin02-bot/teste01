@@ -64,6 +64,11 @@
     z-index: 0;
     overflow: hidden;
   }
+  .ecg-mobile { display: none; }
+  @media (max-width: 768px) {
+    .ecg-desktop { display: none; }
+    .ecg-mobile  { display: block; }
+  }
   .hero > .container { position: relative; z-index: 1; }
   .hero-badge {
     display: inline-block;
@@ -375,6 +380,8 @@
     margin-bottom: 6px;
   }
   .pricing-price sup { font-size: 24px; vertical-align: top; margin-top: 10px; display: inline-block; color: var(--teal); }
+  .pricing-anchor { font-size: 14px; color: rgba(255,255,255,.4); margin-bottom: 6px; }
+  .pricing-anchor s { color: rgba(255,255,255,.35); }
   .pricing-note { font-size: 13px; color: rgba(255,255,255,.45); margin-bottom: 32px; }
   .pricing-list { list-style: none; margin-bottom: 32px; }
   .pricing-list li {
@@ -399,6 +406,18 @@
     transition: background .2s, transform .2s;
   }
   .btn-cta:hover { background: var(--teal-light); transform: translateY(-2px); animation: none; }
+  .urgency-badge {
+    background: rgba(245,200,66,.1);
+    border: 1px solid rgba(245,200,66,.3);
+    color: #F5C842;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    padding: 10px 16px;
+    border-radius: 10px;
+    margin-bottom: 16px;
+    letter-spacing: .2px;
+  }
   .pricing-guarantee {
     text-align: center;
     margin-top: 16px;
@@ -613,6 +632,100 @@
   }
   .authority-badge-float strong { font-size: 26px; display: block; }
 
+  /* ─── AUTHORITY LOGO CARD ─── */
+  .authority-logo-card {
+    width: 100%;
+    aspect-ratio: 4/3;
+    background: linear-gradient(145deg, var(--dark) 0%, #0d4455 100%);
+    border: 1px solid rgba(60,191,176,.18);
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(12,50,64,.2);
+  }
+
+  /* Brilho de fundo */
+  .alc-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 50% 40%, rgba(14,168,158,.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* Anéis decorativos */
+  .alc-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(60,191,176,.1);
+    pointer-events: none;
+  }
+  .alc-ring-1 { width: 260px; height: 260px; }
+  .alc-ring-2 { width: 380px; height: 380px; border-color: rgba(60,191,176,.05); }
+
+  /* Conteúdo central */
+  .alc-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    position: relative;
+    z-index: 1;
+  }
+  .alc-icon {
+    width: 72px; height: 72px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--teal), var(--mint));
+    display: flex; align-items: center; justify-content: center;
+    font-size: 38px;
+    font-weight: 300;
+    color: #fff;
+    box-shadow: 0 8px 28px rgba(14,168,158,.4);
+    margin-bottom: 6px;
+  }
+  .alc-name {
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--white);
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+  .alc-tagline {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--teal-light);
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  /* Badge inferior */
+  .alc-badge {
+    position: absolute;
+    bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.1);
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255,255,255,.4);
+    z-index: 1;
+  }
+  .alc-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--teal);
+    display: inline-block;
+    flex-shrink: 0;
+  }
+
   .authority-text .section-label { margin-bottom: 14px; }
   .authority-text .section-title { margin-bottom: 18px; }
   .authority-desc {
@@ -655,9 +768,7 @@
   .authority-value-item em {
     font-style: normal;
     color: var(--teal);
-    text-decoration: underline;
-    text-decoration-color: rgba(14,168,158,.35);
-    text-underline-offset: 3px;
+    text-decoration: none;
   }
   strong { font-weight: 700; letter-spacing: 0; }
   .authority-value-item::before {
@@ -739,7 +850,7 @@
 <body>
 
 <!-- Top Bar -->
-<div class="topbar">🩺 ENTREGA EM ATÉ 5 DIAS ÚTEIS · EXCLUSIVO PARA PROFISSIONAIS DA SAÚDE</div>
+<div class="topbar">🩺 EXCLUSIVO PARA PROFISSIONAIS DA SAÚDE · <span style="color:var(--mint-light)">⚠️ APENAS 3 VAGAS DISPONÍVEIS ESTE MÊS</span></div>
 
 <!-- HERO -->
 <section class="hero">
@@ -753,12 +864,21 @@
         </pattern>
       </defs>
       <rect width="1200" height="520" fill="url(#dots)"/>
-      <!-- ECG line inferior — cruza toda a largura -->
-      <polyline points="0,420 25,420 35,413 50,413 60,420 65,427 70,355 75,430 82,420 95,402 115,398 135,402 150,420 200,420 200,420 225,420 235,413 250,413 260,420 265,427 270,355 275,430 282,420 295,402 315,398 335,402 350,420 400,420 400,420 425,420 435,413 450,413 460,420 465,427 470,355 475,430 482,420 495,402 515,398 535,402 550,420 600,420 600,420 625,420 635,413 650,413 660,420 665,427 670,355 675,430 682,420 695,402 715,398 735,402 750,420 800,420 800,420 825,420 835,413 850,413 860,420 865,427 870,355 875,430 882,420 895,402 915,398 935,402 950,420 1000,420 1000,420 1025,420 1035,413 1050,413 1060,420 1065,427 1070,355 1075,430 1082,420 1095,402 1115,398 1135,402 1150,420 1200,420"
-        fill="none" stroke="rgba(14,168,158,0.22)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-      <!-- ECG line superior — mais sutil -->
-      <polyline points="0,100 25,100 35,96 50,96 60,100 65,104 70,68 75,106 82,100 95,90 115,88 135,90 150,100 200,100 200,100 225,100 235,96 250,96 260,100 265,104 270,68 275,106 282,100 295,90 315,88 335,90 350,100 400,100 400,100 425,100 435,96 450,96 460,100 465,104 470,68 475,106 482,100 495,90 515,88 535,90 550,100 600,100 600,100 625,100 635,96 650,96 660,100 665,104 670,68 675,106 682,100 695,90 715,88 735,90 750,100 800,100 800,100 825,100 835,96 850,96 860,100 865,104 870,68 875,106 882,100 895,90 915,88 935,90 950,100 1000,100 1000,100 1025,100 1035,96 1050,96 1060,100 1065,104 1070,68 1075,106 1082,100 1095,90 1115,88 1135,90 1150,100 1200,100"
-        fill="none" stroke="rgba(14,168,158,0.12)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <!-- ECG desktop: visível apenas em telas largas -->
+      <g class="ecg-desktop">
+        <polyline points="0,420 25,420 35,413 50,413 60,420 65,427 70,355 75,430 82,420 95,402 115,398 135,402 150,420 200,420 200,420 225,420 235,413 250,413 260,420 265,427 270,355 275,430 282,420 295,402 315,398 335,402 350,420 400,420 400,420 425,420 435,413 450,413 460,420 465,427 470,355 475,430 482,420 495,402 515,398 535,402 550,420 600,420 600,420 625,420 635,413 650,413 660,420 665,427 670,355 675,430 682,420 695,402 715,398 735,402 750,420 800,420 800,420 825,420 835,413 850,413 860,420 865,427 870,355 875,430 882,420 895,402 915,398 935,402 950,420 1000,420 1000,420 1025,420 1035,413 1050,413 1060,420 1065,427 1070,355 1075,430 1082,420 1095,402 1115,398 1135,402 1150,420 1200,420"
+          fill="none" stroke="rgba(14,168,158,0.22)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="0,100 25,100 35,96 50,96 60,100 65,104 70,68 75,106 82,100 95,90 115,88 135,90 150,100 200,100 200,100 225,100 235,96 250,96 260,100 265,104 270,68 275,106 282,100 295,90 315,88 335,90 350,100 400,100 400,100 425,100 435,96 450,96 460,100 465,104 470,68 475,106 482,100 495,90 515,88 535,90 550,100 600,100 600,100 625,100 635,96 650,96 660,100 665,104 670,68 675,106 682,100 695,90 715,88 735,90 750,100 800,100 800,100 825,100 835,96 850,96 860,100 865,104 870,68 875,106 882,100 895,90 915,88 935,90 950,100 1000,100 1000,100 1025,100 1035,96 1050,96 1060,100 1065,104 1070,68 1075,106 1082,100 1095,90 1115,88 1135,90 1150,100 1200,100"
+          fill="none" stroke="rgba(14,168,158,0.12)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+
+      <!-- ECG mobile: visível apenas em telas estreitas -->
+      <g class="ecg-mobile">
+        <polyline points="0,430 25,430 35,423 50,423 60,430 65,437 70,365 75,440 82,430 95,408 115,404 135,408 150,430 200,430 200,430 225,430 235,423 250,423 260,430 265,437 270,365 275,440 282,430 295,408 315,404 335,408 350,430 400,430 400,430 425,430 435,423 450,423 460,430 465,437 470,365 475,440 482,430 495,408 515,404 535,408 550,430 600,430 600,430 625,430 635,423 650,423 660,430 665,437 670,365 675,440 682,430 695,408 715,404 735,408 750,430 800,430 800,430 825,430 835,423 850,423 860,430 865,437 870,365 875,440 882,430 895,408 915,404 935,408 950,430 1000,430 1000,430 1025,430 1035,423 1050,423 1060,430 1065,437 1070,365 1075,440 1082,430 1095,408 1115,404 1135,408 1150,430 1200,430"
+          fill="none" stroke="rgba(14,168,158,0.28)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <polyline points="0,95 25,95 35,91 50,91 60,95 65,99 70,63 75,101 82,95 95,83 115,81 135,83 150,95 200,95 200,95 225,95 235,91 250,91 260,95 265,99 270,63 275,101 282,95 295,83 315,81 335,83 350,95 400,95 400,95 425,95 435,91 450,91 460,95 465,99 470,63 475,101 482,95 495,83 515,81 535,83 550,95 600,95 600,95 625,95 635,91 650,91 660,95 665,99 670,63 675,101 682,95 695,83 715,81 735,83 750,95 800,95 800,95 825,95 835,91 850,91 860,95 865,99 870,63 875,101 882,95 895,83 915,81 935,83 950,95 1000,95 1000,95 1025,95 1035,91 1050,91 1060,95 1065,99 1070,63 1075,101 1082,95 1095,83 1115,81 1135,83 1150,95 1200,95"
+          fill="none" stroke="rgba(14,168,158,0.14)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
       <g opacity="0.07" transform="translate(60,400)">
         <rect x="-8" y="-28" width="16" height="56" rx="4" fill="#3CBFB0"/>
         <rect x="-28" y="-8" width="56" height="16" rx="4" fill="#3CBFB0"/>
@@ -1052,6 +1172,7 @@
       <div class="pricing-badge">🏥 PARA PROFISSIONAIS DA SAÚDE</div>
       <div class="pricing-body">
         <h3>Site Profissional Completo</h3>
+        <p class="pricing-anchor">De <s>R$997</s></p>
         <div class="pricing-price"><sup>R$</sup>597</div>
         <p class="pricing-note">Pagamento único · Sem mensalidade · Entrega em até 5 dias</p>
         <ul class="pricing-list">
@@ -1064,6 +1185,7 @@
           <li><span class="check">✓</span> <span>Google Meu Negócio configurado</span></li>
           <li><span class="check">✓</span> <span>Entrega em até <strong>5 dias úteis</strong></span></li>
         </ul>
+        <div class="urgency-badge">⚠️ Apenas <strong>3 vagas</strong> disponíveis este mês</div>
         <a href="https://wa.me/5500000000000" class="btn-cta">→ Quero Meu Site Agora</a>
         <p class="pricing-guarantee">🔒 Satisfação garantida · Suporte incluso</p>
       </div>
